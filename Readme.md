@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг» [![Build status][travis-image]][travis-url]
 
 * Студент: [Ольга Котова](https://up.htmlacademy.ru/nodejs/2/user/138410).
-* Наставник: `Неизвестно`.
+* Наставник: [Дмитрий Донецкий](https://up.htmlacademy.ru/nodejs/2/user/497669).
 
 ---
 
