@@ -1,10 +1,12 @@
 'use strict';
 
+const colors = require(`colors/safe`);
+
 const packageInfo = require(`../../package.json`);
 
 const DEFAULT_MESSAGE = `Salut!
-This app will run the server „${packageInfo.name}“.
-Author: ${packageInfo.author}.`;
+This app will run the server „${colors.underline(packageInfo.name)}“.
+Author: ${colors.underline(packageInfo.author)}.`;
 
 module.exports = {
   name: `default`,
