@@ -5,8 +5,7 @@ const PlaceValue = {
   MAX_PRICE: 1000000,
   MIN_ROOMS: 1,
   MAX_ROOMS: 5,
-  MIN_FEATURES: 1,
-  NUMBER_OF_PLACES: 8
+  MIN_FEATURES: 1
 };
 
 const PlaceData = {
@@ -17,8 +16,12 @@ const PlaceData = {
   PHOTOS: [`http://o0.github.io/assets/images/tokyo/hotel1.jpg`, `http://o0.github.io/assets/images/tokyo/hotel2.jpg`, `http://o0.github.io/assets/images/tokyo/hotel3.jpg`]
 };
 
-const [X_MIN, X_MAX] = [300, 900];
-const [Y_MIN, Y_MAX] = [150, 500];
+const LocationValue = {
+  MIN_X: 300,
+  MAX_X: 900,
+  MIN_Y: 150,
+  MAX_Y: 500
+};
 
 const getRandom = (min, max) => {
   return Math.floor(Math.random() * (max - min)) + min;
@@ -44,7 +47,7 @@ const getOneOf = (array) => {
 };
 
 const createLocation = () => {
-  return {x: getRandom(X_MIN, X_MAX + 1), y: getRandom(Y_MIN, Y_MAX + 1)};
+  return {x: getRandom(LocationValue.MIN_X, LocationValue.MAX_X + 1), y: getRandom(LocationValue.MIN_Y, LocationValue.MAX_Y + 1)};
 };
 
 const createArrayRandomLength = (min, array) => {

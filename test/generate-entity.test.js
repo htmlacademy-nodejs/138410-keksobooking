@@ -3,6 +3,37 @@
 const assert = require(`assert`);
 const generateEntity = require(`../src/helpers/generate-entity`);
 
+const PlaceValue = {
+  MIN_PRICE: 1000,
+  MAX_PRICE: 1000000,
+  MIN_ROOMS: 1,
+  MAX_ROOMS: 5,
+  MIN_FEATURES: 1,
+  NUMBER_OF_PLACES: 8
+};
+
+const PlaceData = {
+  OFFER_TITLES: [`Большая уютная квартира`, `Маленькая неуютная квартира`, `Огромный прекрасный дворец`, `Маленький ужасный дворец`, `Красивый гостевой домик`, `Некрасивый негостеприимный домик`, `Уютное бунгало далеко от моря`, `Неуютное бунгало по колено в воде`],
+  OFFER_TYPES: [`flat`, `house`, `bungalo`],
+  CHECK_TIMES: [`12:00`, `13:00`, `14:00`],
+  OFFER_FEATURES: [`wifi`, `dishwasher`, `parking`, `washer`, `elevator`, `conditioner`],
+  PHOTOS: [`http://o0.github.io/assets/images/tokyo/hotel1.jpg`, `http://o0.github.io/assets/images/tokyo/hotel2.jpg`, `http://o0.github.io/assets/images/tokyo/hotel3.jpg`]
+};
+
+const LocationValue = {
+  MIN_X: 300,
+  MAX_X: 900,
+  MIN_Y: 150,
+  MAX_Y: 500
+};
+
+const AUTHOR_PROPERTIES = [`avatar`];
+
+const OFFER_PROPERTIES = [
+  `title`, `address`, `price`, `type`, `rooms`, `guests`,
+  `checkin`, `checkout`, `features`, `description`, `photos`
+];
+
 const isString = (value) => typeof value === `string`;
 
 const isNumber = (value) => typeof value === `number`;
@@ -63,37 +94,24 @@ const getCheckingArray = (array) => {
 };
 
 const isImage = getCheckingString(/^(http(s?):\/\/?)([\S]*).(jpg|gif|png)/i);
-const authorProperties = [`avatar`];
 
-const offerProperties = [
-  `title`, `address`, `price`, `type`, `rooms`, `guests`,
-  `checkin`, `checkout`, `features`, `description`, `photos`
-];
-const titleValues = [`Большая уютная квартира`, `Маленькая неуютная квартира`, `Огромный прекрасный дворец`, `Маленький ужасный дворец`, `Красивый гостевой домик`, `Некрасивый негостеприимный домик`, `Уютное бунгало далеко от моря`, `Неуютное бунгало по колено в воде`];
-const isTitle = getCheckingStringValue(titleValues);
+const isTitle = getCheckingStringValue(PlaceData.OFFER_TITLES);
 
-const [priceMin, priceMax] = [1000, 1000000];
-const isPrice = getCheckingNumber(priceMin, priceMax);
+const isPrice = getCheckingNumber(PlaceValue.MIN_PRICE, PlaceValue.MAX_PRICE);
 
-const typeValues = [`flat`, `palace`, `house`, `bungalo`];
-const isType = getCheckingStringValue(typeValues);
+const isType = getCheckingStringValue(PlaceData.OFFER_TYPES);
 
-const [roomsMin, roomsMax] = [1, 5];
-const isRooms = getCheckingNumber(roomsMin, roomsMax);
+const isRooms = getCheckingNumber(PlaceValue.MIN_ROOMS, PlaceValue.MAX_ROOMS);
 
-const timeValues = [`12:00`, `13:00`, `14:00`];
-const isTime = getCheckingStringValue(timeValues);
+const isTime = getCheckingStringValue(PlaceData.CHECK_TIMES);
 
-const featuresValues = [`wifi`, `dishwasher`, `parking`, `washer`, `elevator`, `conditioner`];
-const isFeatures = getCheckingArray(featuresValues);
+const isFeatures = getCheckingArray(PlaceData.OFFER_FEATURES);
 
 const isPhotos = isArrayOf(isImage);
 
 const locationProperties = [`x`, `y`];
-const [xMin, xMax] = [300, 900];
-const [yMin, yMax] = [150, 500];
-const isXPoint = getCheckingNumber(xMin, xMax);
-const isYPoint = getCheckingNumber(yMin, yMax);
+const isXPoint = getCheckingNumber(LocationValue.MIN_X, LocationValue.MAX_X);
+const isYPoint = getCheckingNumber(LocationValue.MIN_Y, LocationValue.MAX_Y);
 
 describe(`generateEntity`, function () {
   const data = generateEntity();
@@ -108,7 +126,7 @@ describe(`generateEntity`, function () {
     });
 
     it(`should have an avatar property`, function () {
-      assert.deepStrictEqual(Object.keys(author), authorProperties, `author doesn't have an avatar property`);
+      assert.deepStrictEqual(Object.keys(author), AUTHOR_PROPERTIES, `author doesn't have an avatar property`);
       if (!isImage(author.avatar)) {
         assert.fail(`avatar should be an image path`);
       }
@@ -120,7 +138,7 @@ describe(`generateEntity`, function () {
 
     it(`should be an object`, function () {
       if (offer && isObject(offer)) {
-        assert.deepStrictEqual(Object.keys(offer), offerProperties, `offer doesn't have necessary properties`);
+        assert.deepStrictEqual(Object.keys(offer), OFFER_PROPERTIES, `offer doesn't have necessary properties`);
       } else {
         assert.fail(`author should be an object`);
       }
@@ -128,7 +146,7 @@ describe(`generateEntity`, function () {
 
     it(`should have a correct title property`, function () {
       if (!isTitle(offer.title)) {
-        assert.fail(`title should be one of ${titleValues}, but it's a ${offer.title}`);
+        assert.fail(`title should be one of ${PlaceData.OFFER_TITLES}, but it's a ${offer.title}`);
       }
     });
 
@@ -141,19 +159,19 @@ describe(`generateEntity`, function () {
 
     it(`should have a correct price property`, function () {
       if (!isPrice(offer.price)) {
-        assert.fail(`price should be a number from ${priceMin} to ${priceMax}, but it's ${offer.price}`);
+        assert.fail(`price should be a number from ${PlaceValue.MIN_PRICE} to ${PlaceValue.MAX_PRICE}, but it's ${offer.price}`);
       }
     });
 
     it(`should have a correct type property`, function () {
       if (!isType(offer.type)) {
-        assert.fail(`type should be one of ${typeValues}`);
+        assert.fail(`type should be one of ${PlaceData.OFFER_TYPES}`);
       }
     });
 
     it(`should have a correct rooms property`, function () {
       if (!isRooms(offer.rooms)) {
-        assert.fail(`rooms should be a number from ${roomsMin} to ${roomsMax}, but it's ${offer.rooms}`);
+        assert.fail(`rooms should be a number from ${PlaceValue.MIN_POOMS} to ${PlaceValue.MAX_ROOMS}, but it's ${offer.rooms}`);
       }
     });
 
@@ -165,10 +183,10 @@ describe(`generateEntity`, function () {
 
     it(`should have a correct checkin, checkout properties`, function () {
       if (!isTime(offer.checkin)) {
-        assert.fail(`checkin should be one of ${timeValues}`);
+        assert.fail(`checkin should be one of ${PlaceData.CHECK_TIMES}`);
       }
       if (!isTime(offer.checkout)) {
-        assert.fail(`checkout should be one of ${timeValues}`);
+        assert.fail(`checkout should be one of ${PlaceData.CHECK_TIMES}`);
       }
     });
 
@@ -177,7 +195,7 @@ describe(`generateEntity`, function () {
         assert.fail(`features should be an array, but it's ${typeof offer.features}`);
       }
       if (!isFeatures(offer.features)) {
-        assert.fail(`features should be an array, where every value are one of ${featuresValues}, but it's ${offer.features}`);
+        assert.fail(`features should be an array, where every value are one of ${PlaceData.OFFER_FEATURES}, but it's ${offer.features}`);
       }
     });
 
@@ -203,11 +221,11 @@ describe(`generateEntity`, function () {
       }
       assert.deepStrictEqual(Object.keys(location), locationProperties, `location doesn't have necessary properties`);
       if (!isXPoint(location.x)) {
-        assert.fail(`location x should be a number from ${xMin} to ${xMax}, but it's ${location.x}`);
+        assert.fail(`location x should be a number from ${LocationValue.MIN_X} to ${LocationValue.MAX_X}, but it's ${location.x}`);
       }
 
       if (!isYPoint(location.y)) {
-        assert.fail(`location y should be a number from ${yMin} to ${yMax}, but it's ${location.y}`);
+        assert.fail(`location y should be a number from ${LocationValue.MIN_Y} to ${LocationValue.MAX_Y}, but it's ${location.y}`);
       }
     });
   });
