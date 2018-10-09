@@ -19,11 +19,10 @@ module.exports = {
       process.exit(0);
     } else if (command === void 0) {
       defaultCommand.execute();
-      process.exit(0);
+    } else {
+      errorCommand.execute(command);
+      helpCommand.execute(commands);
+      process.exit(1);
     }
-
-    errorCommand.execute(command);
-    helpCommand.execute(commands);
-    process.exit(1);
   }
 };
