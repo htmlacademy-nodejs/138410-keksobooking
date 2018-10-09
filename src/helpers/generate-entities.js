@@ -5,7 +5,8 @@ const PlaceValue = {
   MAX_PRICE: 1000000,
   MIN_ROOMS: 1,
   MAX_ROOMS: 5,
-  MIN_FEATURES: 1
+  MIN_FEATURES: 1,
+  NUMBER_OF_PLACES: 1
 };
 
 const PlaceData = {
@@ -42,10 +43,6 @@ const shuffleArray = (array) => {
   return localArray;
 };
 
-const getOneOf = (array) => {
-  return array[getRandom(0, array.length)];
-};
-
 const createLocation = () => {
   return {x: getRandom(LocationValue.MIN_X, LocationValue.MAX_X + 1), y: getRandom(LocationValue.MIN_Y, LocationValue.MAX_Y + 1)};
 };
@@ -55,7 +52,7 @@ const createArrayRandomLength = (min, array) => {
   return shuffleArray(array).slice(0, num + 1);
 };
 
-function generateEntity() {
+const generateEntity = (title) => {
   const place = {};
   const avatarPath = `https://image.shutterstock.com/image-vector/smiling-girl-avatar-cute-woman-260nw-1018322197.jpg`;
   place.author = {avatar: avatarPath};
@@ -63,7 +60,7 @@ function generateEntity() {
   place.location = createLocation();
 
   place.offer = {
-    title: getOneOf(PlaceData.OFFER_TITLES),
+    title,
     address: `${place.location.x}, ${place.location.y}`,
     price: getRandom(PlaceValue.MIN_PRICE, PlaceValue.MAX_PRICE + 1),
     type: PlaceData.OFFER_TYPES[getRandom(0, PlaceData.OFFER_TYPES.length)],
@@ -82,6 +79,16 @@ function generateEntity() {
   place.date = getRandom(minDate.getTime(), maxDate.getTime() + 1);
 
   return place;
-}
+};
 
-module.exports = generateEntity;
+const generateEntities = (value = PlaceValue.NUMBER_OF_PLACES) => {
+  const places = [];
+  const offerTitles = shuffleArray(PlaceData.OFFER_TITLES);
+
+  for (let i = 0; i < value; i++) {
+    places[i] = generateEntity(offerTitles[i % offerTitles.length]);
+  }
+  return places;
+};
+
+module.exports = generateEntities;
