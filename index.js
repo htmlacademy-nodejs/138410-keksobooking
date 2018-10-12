@@ -1,13 +1,9 @@
 'use strict';
 
-const commands = require(`./src/commands/commands.js`);
-const GenerateData = require(`./src/generate-data/generate-data.js`);
+const Commands = require(`./src/commands.js`);
 
 const command = process.argv[2];
+const params = process.argv.slice(3);
 
-commands.showMessage(command);
-
-setImmediate(() => {
-  const generateData = new GenerateData();
-  generateData.start();
-});
+const commands = new Commands(command, params);
+commands.showMessage();

@@ -1,7 +1,7 @@
 'use strict';
 
 const assert = require(`assert`);
-const generateEntities = require(`../src/helpers/generate-entities`);
+const GenerateEntities = require(`../src/helpers/generate-entities`);
 
 const PlaceValue = {
   MIN_PRICE: 1000,
@@ -113,7 +113,8 @@ const isXPoint = getCheckingNumber(LocationValue.MIN_X, LocationValue.MAX_X);
 const isYPoint = getCheckingNumber(LocationValue.MIN_Y, LocationValue.MAX_Y);
 
 describe(`generateEntities`, function () {
-  const data = generateEntities()[0];
+  const generate = new GenerateEntities();
+  const data = generate.getEntities()[0];
 
   describe(`author`, function () {
     const {author} = data;
