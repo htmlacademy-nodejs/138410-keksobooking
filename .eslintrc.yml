@@ -5,4 +5,4 @@ env:
   mocha: true
 extends: 'htmlacademy/node'
 parserOptions:
-  ecmaVersion: 2015
+  ecmaVersion: 2017

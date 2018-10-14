@@ -6,7 +6,7 @@ const fs = require(`fs`);
 const homedir = require(`os`).homedir();
 const colors = require(`colors/safe`);
 
-const generateEntities = require(`../helpers/generate-entities`);
+const GenerateEntities = require(`./helpers/generate-entities`);
 
 const FIRST_QUESTION = `Do you want to generate a new data? (y/n) `;
 const VALUE_QUESTION = `How many elements do you want to create? `;
@@ -125,7 +125,8 @@ class GenerateData {
   }
 
   generateData() {
-    return JSON.stringify(generateEntities(this.value));
+    const generate = new GenerateEntities(this.value);
+    return JSON.stringify(generate.getEntities());
   }
 
   saveData(data) {
