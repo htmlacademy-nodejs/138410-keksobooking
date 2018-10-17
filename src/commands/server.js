@@ -16,7 +16,6 @@ module.exports = {
       }
     }
 
-    const server = new Server(port);
-    return server.start();
+    return (new Server(port)).run();
   }
 };
