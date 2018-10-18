@@ -1,7 +1,7 @@
 'use strict';
 
-const GenerateEntities = require(`../helpers/generate-entities`);
-const NotFoundError = require(`../errors/not-found.js`);
+const GenerateEntities = require(`../../helpers/generate-entities`);
+const NotFoundError = require(`../errors/not-found`);
 
 const SKIP_DEFAULT = 0;
 const LIMIT_DEFAULT = 20;

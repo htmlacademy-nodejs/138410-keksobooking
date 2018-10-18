@@ -1,6 +1,6 @@
 'use strict';
 
-const offers = require(`./routers/offers.js`);
+const offers = require(`./offers/router`);
 
 const add = (app) => {
   app.use(`/api/offers`, offers.router);

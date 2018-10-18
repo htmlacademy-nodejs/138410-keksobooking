@@ -1,7 +1,7 @@
 'use strict';
 
 const express = require(`express`);
-const {offersController, data} = require(`../controllers/offers`);
+const {offersController, data} = require(`./controller`);
 
 // eslint-disable-next-line new-cap
 const router = express.Router();

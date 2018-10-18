@@ -2,7 +2,7 @@
 
 const request = require(`supertest`);
 const assert = require(`assert`);
-const Server = require(`../src/server.js`);
+const Server = require(`../src/app/server`);
 
 const server = new Server();
 const app = server.app;

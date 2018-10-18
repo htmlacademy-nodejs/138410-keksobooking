@@ -1,6 +1,6 @@
 'use strict';
 
-const utils = require(`./utils.js`);
+const utils = require(`./utils`);
 
 const PlaceValue = {
   MIN_PRICE: 1000,
