@@ -21,6 +21,7 @@
   "devDependencies": {
     "eslint": "5.6.1",
     "eslint-config-htmlacademy": "0.5.2",
+    "multer": "1.4.1",
     "supertest": "3.3.0"
   },
   "dependencies": {

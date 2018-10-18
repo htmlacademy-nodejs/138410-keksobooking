@@ -27,6 +27,17 @@ const offersController = {
     }
 
     res.send(offer);
+  },
+
+  postOffer(req, res) {
+    const body = req.body;
+    const avatar = req.file;
+
+    if (avatar) {
+      body.avatar = avatar.originalname;
+    }
+
+    res.send(body);
   }
 };
 
