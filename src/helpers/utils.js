@@ -1,6 +1,6 @@
 'use strict';
 
-module.exports = {
+const utils = {
   ConsoleStatus: {
     OK: 0,
     ERROR: 1
@@ -30,3 +30,5 @@ module.exports = {
     return this.shuffleArray(array).slice(0, num + 1);
   }
 };
+
+module.exports = utils;

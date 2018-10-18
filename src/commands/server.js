@@ -1,6 +1,6 @@
 'use strict';
 
-const Server = require(`../server.js`);
+const Server = require(`../app/server`);
 
 module.exports = {
   name: `server`,
@@ -16,7 +16,6 @@ module.exports = {
       }
     }
 
-    const server = new Server(port);
-    return server.start();
+    return (new Server(port)).start();
   }
 };

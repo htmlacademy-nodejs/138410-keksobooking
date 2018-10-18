@@ -3,7 +3,7 @@
 const colors = require(`colors/safe`);
 
 const packageInfo = require(`../../package.json`);
-const GenerateData = require(`../generate-data.js`);
+const GenerateData = require(`../generate-data`);
 
 const DEFAULT_MESSAGE = `Salut!
 This app will run the server „${colors.underline(packageInfo.name)}“.

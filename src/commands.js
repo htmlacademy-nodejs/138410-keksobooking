@@ -1,15 +1,15 @@
 'use strict';
 
-const utils = require(`./helpers/utils.js`);
+const utils = require(`./helpers/utils`);
 
-const helpCommand = require(`./commands/help.js`);
-const versionCommand = require(`./commands/version.js`);
-const authorCommand = require(`./commands/author.js`);
-const descriptionCommand = require(`./commands/description.js`);
-const licenseCommand = require(`./commands/license.js`);
-const serverCommand = require(`./commands/server.js`);
-const defaultCommand = require(`./commands/default.js`);
-const errorCommand = require(`./commands/error.js`);
+const helpCommand = require(`./commands/help`);
+const versionCommand = require(`./commands/version`);
+const authorCommand = require(`./commands/author`);
+const descriptionCommand = require(`./commands/description`);
+const licenseCommand = require(`./commands/license`);
+const serverCommand = require(`./commands/server`);
+const defaultCommand = require(`./commands/default`);
+const errorCommand = require(`./commands/error`);
 
 const commands = [helpCommand, versionCommand, authorCommand, descriptionCommand, licenseCommand, serverCommand];
 
