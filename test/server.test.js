@@ -62,6 +62,43 @@ describe(`GET /api/offers/:date`, () => {
   });
 });
 
+describe(`POST /api/offers`, () => {
+  const offer = {
+    "title": `Некрасивый негостеприимный домик`,
+    "features": [`washer`, `conditioner`, `wifi`],
+    "avatar": `test/fixtures/keks.png`
+  };
+
+  it(`post offer`, async () => {
+    const response = await request(app)
+      .post(`/api/offers`)
+      .send(offer)
+      .set(`Accept`, `application/json`)
+      .expect(200)
+      .expect(`Content-Type`, /json/);
+
+    const reqOffer = response.body;
+    assert.deepStrictEqual(reqOffer, offer);
+  });
+
+  it(`post offer as multipart/form-data`, async () => {
+    const response = await request(app)
+      .post(`/api/offers`)
+      .field(`title`, offer.title)
+      .field(`features`, offer.features)
+      .attach(`avatar`, offer.avatar)
+      .set(`Accept`, `application/json`)
+      .set(`Content-Type`, `multipart/form-data`)
+      .set(`Accept`, `application/json`)
+      .expect(200)
+      .expect(`Content-Type`, /json/);
+
+    const reqOffer = response.body;
+    offer.avatar = `keks.png`;
+    assert.deepStrictEqual(reqOffer, offer);
+  });
+});
+
 describe(`Check errors`, () => {
   it(`return 404`, async () => {
     await request(app).
