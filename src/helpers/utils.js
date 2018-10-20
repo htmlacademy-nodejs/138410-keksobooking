@@ -28,6 +28,10 @@ const utils = {
   createArrayRandomLength(min, array) {
     const num = this.getRandom(min, array.length + 1);
     return this.shuffleArray(array).slice(0, num + 1);
+  },
+
+  getRandomFromArray(array) {
+    return array[this.getRandom(0, array.length)];
   }
 };
 
