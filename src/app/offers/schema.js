@@ -13,17 +13,11 @@ const schema = {
     },
     "avatar": {
       "type": `string`,
-      "media": {
-        "binaryEncoding": `base64`,
-        "type": `image/png`
-      }
+      "pattern": `.(jpg|gif|png)`
     },
     "preview": {
       "type": `string`,
-      "media": {
-        "binaryEncoding": `base64`,
-        "type": `image/png`
-      }
+      "pattern": `.(jpg|gif|png)`
     },
     "address": {
       "type": `string`,
