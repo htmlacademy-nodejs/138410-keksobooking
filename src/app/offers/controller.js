@@ -3,10 +3,11 @@
 const Ajv = require(`ajv`);
 
 const BadRequestError = require(`../errors/bad-request`);
-const GenerateEntities = require(`../../helpers/generate-entities`);
 const NotFoundError = require(`../errors/not-found`);
+
 const schema = require(`./schema`);
 
+const GenerateEntities = require(`../../helpers/generate-entities`);
 const utils = require(`../../helpers/utils`);
 const {NameData} = require(`../../helpers/data`);
 
