@@ -2,7 +2,9 @@
 
 const request = require(`supertest`);
 const assert = require(`assert`);
+
 const Server = require(`../src/app/server`);
+const {NameData} = require(`../src/helpers/data`);
 
 const server = new Server();
 const app = server.app;
@@ -63,39 +65,127 @@ describe(`GET /api/offers/:date`, () => {
 });
 
 describe(`POST /api/offers`, () => {
-  const offer = {
-    "title": `Некрасивый негостеприимный домик`,
-    "features": [`washer`, `conditioner`, `wifi`],
-    "avatar": `test/fixtures/keks.png`
+  const validOffer = {
+    "name": `Моника`,
+    "avatar": `keks.png`,
+    "preview": `keks.png`,
+    "title": `Большая уютная квартира`,
+    "address": `570, 472`,
+    "description": `Средняя чистая квратира в центре Нью-Йорка. Рядом есть классная кофейня „Central Perk“.`,
+    "price": 30000,
+    "type": `flat`,
+    "rooms": 3,
+    "guests": 4,
+    "checkin": `12:00`,
+    "checkout": `14:00`,
+    "features": [`elevator`, `conditioner`]
+  };
+
+  const location = {location: {x: 570, y: 472}};
+
+  const validOfferWithoutNotReqiuredData = {
+    "title": `Большая уютная квартира`,
+    "address": `570, 472`,
+    "description": `Средняя чистая квратира в центре Нью-Йорка. Рядом есть классная кофейня „Central Perk“.`,
+    "price": 30000,
+    "type": `flat`,
+    "rooms": 3,
+    "guests": 4,
+    "checkin": `12:00`,
+    "checkout": `14:00`,
+    "features": [`elevator`, `conditioner`]
+  };
+
+  const notValidOffer = {
+    "name": `Моника`,
+    "avatar": `test/fixtures/test.pdf`,
+    "preview": `test/fixtures/test.pdf`,
+    "title": `Средняя квартирка в центре`,
+    "address": `570, 472`,
+    "description": `Средняя чистая квратира в центре Нью-Йорка. Рядом есть классная кофейня „Central Perk“.`,
+    "price": 30000,
+    "type": `test`,
+    "rooms": `test`,
+    "checkin": `09:00`,
+    "checkout": `10:00`,
+    "features": [`elevator`, `elevator`, `conditioner`]
   };
 
   it(`post offer`, async () => {
     const response = await request(app)
       .post(`/api/offers`)
-      .send(offer)
+      .send(validOffer)
       .set(`Accept`, `application/json`)
       .expect(200)
       .expect(`Content-Type`, /json/);
 
     const reqOffer = response.body;
-    assert.deepStrictEqual(reqOffer, offer);
+    assert.deepStrictEqual(reqOffer, Object.assign({}, validOffer, location));
+  });
+
+  it(`post offer with invalid data`, async () => {
+    await request(app)
+      .post(`/api/offers`)
+      .send(notValidOffer)
+      .set(`Accept`, `application/json`)
+      .expect(400)
+      .expect(`Content-Type`, /html/);
+  });
+
+  it(`post offer without not reqiured data`, async () => {
+    const response = await request(app)
+      .post(`/api/offers`)
+      .send(validOfferWithoutNotReqiuredData)
+      .set(`Accept`, `application/json`)
+      .expect(200)
+      .expect(`Content-Type`, /json/);
+
+    const reqOffer = response.body;
+    assert.strictEqual(NameData.includes(reqOffer.name), true);
   });
 
   it(`post offer as multipart/form-data`, async () => {
     const response = await request(app)
       .post(`/api/offers`)
-      .field(`title`, offer.title)
-      .field(`features`, offer.features)
-      .attach(`avatar`, offer.avatar)
+      .field(`name`, validOffer.name)
+      .attach(`avatar`, `test/fixtures/keks.png`)
+      .attach(`preview`, `test/fixtures/keks.png`)
+      .field(`title`, validOffer.title)
+      .field(`address`, validOffer.address)
+      .field(`description`, validOffer.description)
+      .field(`price`, validOffer.price)
+      .field(`type`, validOffer.type)
+      .field(`rooms`, validOffer.rooms)
+      .field(`guests`, validOffer.guests)
+      .field(`checkin`, validOffer.checkin)
+      .field(`checkout`, validOffer.checkout)
+      .field(`features`, validOffer.features)
       .set(`Accept`, `application/json`)
       .set(`Content-Type`, `multipart/form-data`)
-      .set(`Accept`, `application/json`)
       .expect(200)
       .expect(`Content-Type`, /json/);
 
     const reqOffer = response.body;
-    offer.avatar = `keks.png`;
-    assert.deepStrictEqual(reqOffer, offer);
+    assert.deepStrictEqual(reqOffer, Object.assign({}, validOffer, location));
+  });
+
+  it(`post offer as multipart/form-data with invalid data`, async () => {
+    await request(app)
+      .post(`/api/offers`)
+      .field(`name`, notValidOffer.name)
+      .field(`title`, notValidOffer.title)
+      .field(`address`, notValidOffer.address)
+      .field(`description`, notValidOffer.description)
+      .field(`price`, notValidOffer.price)
+      .field(`type`, notValidOffer.type)
+      .field(`rooms`, notValidOffer.rooms)
+      .field(`checkin`, notValidOffer.checkin)
+      .field(`checkout`, notValidOffer.checkout)
+      .field(`features`, notValidOffer.features)
+      .set(`Accept`, `application/json`)
+      .set(`Content-Type`, `multipart/form-data`)
+      .expect(400)
+      .expect(`Content-Type`, /html/);
   });
 });
 

@@ -1,6 +1,7 @@
 'use strict';
 
 const express = require(`express`);
+
 const router = require(`./router`);
 
 const setup = Symbol(`setup`);
@@ -30,7 +31,6 @@ class Server {
 
   [setup]() {
     this.app.use(express.static(`static`));
-
     router.add(this.app);
     this.app.use(NOT_FOUND_HANDLER);
     this.app.use(ERROR_HANDLER);

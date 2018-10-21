@@ -10,12 +10,13 @@ const router = express.Router();
 const jsonParser = express.json();
 
 const upload = multer({storage: multer.memoryStorage()});
+const allowedImages = [{name: `avatar`, maxCount: 1}, {name: `preview`, maxCount: 1}];
 
 router.get(``, offersController.getOffers);
 
 router.get(`/:date`, offersController.getOfferByDate);
 
-router.post(``, jsonParser, upload.single(`avatar`), offersController.postOffer);
+router.post(``, jsonParser, upload.fields(allowedImages), offersController.postOffer);
 
 module.exports = {
   router,
