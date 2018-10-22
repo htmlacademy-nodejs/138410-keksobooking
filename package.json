@@ -6,7 +6,8 @@
   "scripts": {
     "test:lint": "eslint .",
     "test:mocha": "mocha",
-    "test": "npm run test:lint && npm run test:mocha"
+    "test": "npm run test:lint && npm run test:mocha",
+    "mongo": "mongod --port 27017 --dbpath=./data"
   },
   "repository": {
     "type": "git",
@@ -20,8 +21,10 @@
   "homepage": "https://github.com/oliktva/138410-keksobooking-1#readme",
   "devDependencies": {
     "ajv": "6.5.4",
+    "buffer-to-stream": "1.0.0",
     "eslint": "5.6.1",
     "eslint-config-htmlacademy": "0.5.2",
+    "mongodb": "3.1.8",
     "multer": "1.4.1",
     "supertest": "3.3.0"
   },

@@ -1,5 +1,7 @@
 'use strict';
 
+const asyncMiddleware = (fn) => (req, res, next) => fn(req, res, next).catch(next);
+
 const utils = {
   ConsoleStatus: {
     OK: 0,
@@ -32,7 +34,9 @@ const utils = {
 
   getRandomFromArray(array) {
     return array[this.getRandom(0, array.length)];
-  }
+  },
+
+  asyncMiddleware
 };
 
 module.exports = utils;
