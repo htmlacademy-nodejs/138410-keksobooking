@@ -2,6 +2,9 @@
 
 const databaseConnect = require(`../../database/database`);
 
+const SKIP_DEFAULT = 0;
+const LIMIT_DEFAULT = 20;
+
 const setupCollection = async () => {
   const db = await databaseConnect();
 
@@ -20,8 +23,9 @@ class OffersStore {
     return (await this.collection).findOne({date});
   }
 
-  async getOffers() {
-    return (await this.collection).find();
+  async getOffers(skip = SKIP_DEFAULT, limit = LIMIT_DEFAULT) {
+    const cursor = (await this.collection).find();
+    return (await cursor.skip(skip).limit(limit).toArray());
   }
 
   async saveData(data) {

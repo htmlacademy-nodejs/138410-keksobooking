@@ -17,33 +17,28 @@ class ImagesStore {
   constructor() {
     this.collection = setupCollection().
       catch((e) => console.error(`Failed to set up the offers collection`, e));
-  }
 
-  async getBucket() {
-    if (!this[bucket]) {
+    (async () => {
       const db = await databaseConnect();
       this[bucket] = new mongodb.GridFSBucket(db, {
         chunkSizeBytes: 512 * 1024,
         bucketName: `avatars`
       });
-    }
-    return this[bucket];
+    })();
   }
 
   async get(filename) {
-    const bckt = await this.getBucket();
-    const results = await (bckt).find({filename}).toArray();
+    const results = await (this[bucket]).find({filename}).toArray();
     const entity = results[0];
     if (!entity) {
       return void 0;
     }
-    return {info: entity, stream: bckt.openDownloadStreamByName(filename)};
+    return {info: entity, stream: this[bucket].openDownloadStreamByName(filename)};
   }
 
   async save(filename, stream) {
-    const bckt = await this.getBucket();
     return new Promise((success, fail) => {
-      stream.pipe(bckt.openUploadStream(filename)).on(`error`, fail).on(`finish`, success);
+      stream.pipe(this[bucket].openUploadStream(filename)).on(`error`, fail).on(`finish`, success);
     });
   }
 }

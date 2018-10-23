@@ -37,8 +37,7 @@ class OffersController {
       const skip = parseInt(req.query.skip, 10) || SKIP_DEFAULT;
       const limit = parseInt(req.query.limit, 10) || LIMIT_DEFAULT;
 
-      const cursor = await this.store.getOffers();
-      const offers = await cursor.skip(skip).limit(limit).toArray();
+      const offers = await this.store.getOffers(skip, limit);
 
       res.send(offers);
     };

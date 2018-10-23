@@ -1,7 +1,6 @@
 'use strict';
 
 const GenerateEntities = require(`../../src/helpers/generate-entities`);
-const Cursor = require(`./cursor`);
 
 const generator = new GenerateEntities(40);
 
@@ -14,8 +13,8 @@ class OffersStoreMock {
     return this.data.find((it) => it.date === date);
   }
 
-  async getOffers() {
-    return new Cursor(this.data);
+  async getOffers(skip, limit) {
+    return this.data.slice(skip, skip + limit);
   }
 
   async saveData(data) {
