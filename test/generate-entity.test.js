@@ -92,7 +92,7 @@ const getCheckingArray = (array) => {
   };
 };
 
-const isImage = getCheckingString(/^(http(s?):\/\/?)([\S]*).(jpg|gif|png)/i);
+const isImage = getCheckingString(/([\S]*).(jpg|gif|png)/i);
 
 const isTitle = getCheckingStringValue(PlaceData.OFFER_TITLES);
 

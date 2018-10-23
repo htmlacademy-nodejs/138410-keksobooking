@@ -1,12 +1,11 @@
 'use strict';
 
-const offers = require(`./offers/router`);
+const getOffersRouter = require(`./offers/router`);
 
 const add = (app) => {
-  app.use(`/api/offers`, offers.router);
+  app.use(`/api/offers`, getOffersRouter());
 };
 
 module.exports = {
-  add,
-  offersData: offers.data
+  add
 };

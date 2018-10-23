@@ -3,22 +3,29 @@
 const express = require(`express`);
 const multer = require(`multer`);
 
-const {offersController, data} = require(`./controller`);
+const OffersController = require(`./controller`);
+const OffersStore = require(`./store`);
+const ImagesStore = require(`./images-store`);
+const {asyncMiddleware} = require(`../../helpers/utils`);
 
-// eslint-disable-next-line new-cap
-const router = express.Router();
-const jsonParser = express.json();
+const getRouter = (store, imgStore) => {
+  // eslint-disable-next-line new-cap
+  const router = express.Router();
+  const jsonParser = express.json();
 
-const upload = multer({storage: multer.memoryStorage()});
-const allowedImages = [{name: `avatar`, maxCount: 1}, {name: `preview`, maxCount: 1}];
+  const offersStore = store || new OffersStore();
+  const imagesStore = imgStore || new ImagesStore();
+  const offersController = new OffersController(offersStore, imagesStore);
 
-router.get(``, offersController.getOffers);
+  const upload = multer({storage: multer.memoryStorage()});
+  const allowedImages = [{name: `avatar`, maxCount: 1}, {name: `preview`, maxCount: 1}];
 
-router.get(`/:date`, offersController.getOfferByDate);
+  router.get(``, asyncMiddleware(offersController.getOffers()));
+  router.get(`/:date`, asyncMiddleware(offersController.getOfferByDate()));
+  router.get(`/:date/avatar`, asyncMiddleware(offersController.getAvatar()));
+  router.post(``, jsonParser, upload.fields(allowedImages), asyncMiddleware(offersController.postOffer()));
 
-router.post(``, jsonParser, upload.fields(allowedImages), offersController.postOffer);
-
-module.exports = {
-  router,
-  data
+  return router;
 };
+
+module.exports = getRouter;

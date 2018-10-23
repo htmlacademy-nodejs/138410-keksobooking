@@ -6,7 +6,7 @@ const {PlaceData, PlaceValue, LocationValue} = require(`./data`);
 const createLocation = Symbol(`location`);
 const generateEntity = Symbol(`entity`);
 
-class generateEntities {
+class GenerateEntities {
   constructor(valueOfEntities = PlaceValue.NUMBER_OF_PLACES) {
     this.value = valueOfEntities;
     this.entities = [];
@@ -19,7 +19,7 @@ class generateEntities {
 
   [generateEntity](title) {
     const place = {};
-    const avatarPath = `https://image.shutterstock.com/image-vector/smiling-girl-avatar-cute-woman-260nw-1018322197.jpg`;
+    const avatarPath = `keks.png`;
     place.author = {avatar: avatarPath};
 
     place.location = this[createLocation]();
@@ -55,6 +55,7 @@ class generateEntities {
     }
 
     this.entities = places;
+    return this.entities;
   }
 
   getEntities() {
@@ -62,4 +63,4 @@ class generateEntities {
   }
 }
 
-module.exports = generateEntities;
+module.exports = GenerateEntities;
