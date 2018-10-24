@@ -1,6 +1,7 @@
 'use strict';
 
 const Server = require(`../app/server`);
+const logger = require(`../logger`);
 
 module.exports = {
   name: `server`,
@@ -12,7 +13,7 @@ module.exports = {
       try {
         port = parseInt(port, 10);
       } catch (e) {
-        console.error(e);
+        logger.error(e);
       }
     }
 

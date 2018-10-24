@@ -1,5 +1,6 @@
 'use strict';
 
+const logger = require(`../../logger`);
 const databaseConnect = require(`../../database/database`);
 
 const SKIP_DEFAULT = 0;
@@ -16,7 +17,7 @@ const setupCollection = async () => {
 class OffersStore {
   constructor() {
     this.collection = setupCollection().
-      catch((e) => console.error(`Failed to set up the offers collection`, e));
+      catch((e) => logger.error(`Failed to set up the offers collection`, e));
   }
 
   async getOffer(date) {

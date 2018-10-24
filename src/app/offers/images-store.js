@@ -1,6 +1,7 @@
 'use strict';
 
 const mongodb = require(`mongodb`);
+const logger = require(`../../logger`);
 const databaseConnect = require(`../../database/database`);
 
 const bucket = Symbol(`bucket`);
@@ -16,7 +17,7 @@ const setupCollection = async () => {
 class ImagesStore {
   constructor() {
     this.collection = setupCollection().
-      catch((e) => console.error(`Failed to set up the offers collection`, e));
+      catch((e) => logger.error(`Failed to set up the offers collection`, e));
 
     (async () => {
       const db = await databaseConnect();
