@@ -2,12 +2,13 @@
 
 const colors = require(`colors/safe`);
 
+const logger = require(`../logger`);
 const packageInfo = require(`../../package.json`);
 
 module.exports = {
   name: `author`,
   description: `Shows program author`,
   execute() {
-    console.log(`${colors.italic(packageInfo.author)}`);
+    logger.debug(`${colors.italic(packageInfo.author)}`);
   }
 };

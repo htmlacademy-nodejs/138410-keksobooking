@@ -1,6 +1,7 @@
 'use strict';
 
 const colors = require(`colors/safe`);
+const logger = require(`../logger`);
 
 const HELP_PREMESSAGE = `Usage: `;
 
@@ -15,6 +16,6 @@ module.exports = {
   name: `help`,
   description: `Shows program help`,
   execute(commands) {
-    console.log(getMessage(commands));
+    logger.debug(getMessage(commands));
   }
 };

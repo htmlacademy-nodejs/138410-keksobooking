@@ -2,6 +2,7 @@
 
 const colors = require(`colors/safe`);
 
+const logger = require(`../logger`);
 const packageInfo = require(`../../package.json`);
 const GenerateData = require(`../generate-data`);
 
@@ -13,7 +14,7 @@ module.exports = {
   name: `default`,
   description: `Shows default message`,
   async execute() {
-    console.log(DEFAULT_MESSAGE);
+    logger.debug(DEFAULT_MESSAGE);
 
     const generateData = new GenerateData();
     await generateData.start();

@@ -1,5 +1,7 @@
 'use strict';
 
+require(`dotenv`).config();
+
 const Commands = require(`./src/commands`);
 
 const command = process.argv[2];

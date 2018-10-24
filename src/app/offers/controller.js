@@ -3,6 +3,8 @@
 const Ajv = require(`ajv`);
 const toStream = require(`buffer-to-stream`);
 
+const logger = require(`../../logger`);
+
 const BadRequestError = require(`../errors/bad-request`);
 const NotFoundError = require(`../errors/not-found`);
 
@@ -112,11 +114,11 @@ class OffersController {
       res.header(`Content-Type`, `image/jpg`);
       res.header(`Content-Length`, result.info.length);
 
-      res.on(`error`, (e) => console.error(e));
+      res.on(`error`, (e) => logger.error(e));
       res.on(`end`, () => res.end());
 
       const stream = result.stream;
-      stream.on(`error`, (e) => console.error(e));
+      stream.on(`error`, (e) => logger.error(e));
       stream.on(`end`, () => res.end());
       stream.pipe(res);
     };
