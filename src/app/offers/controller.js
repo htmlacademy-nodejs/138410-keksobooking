@@ -45,6 +45,25 @@ const prepareData = ({body, files}) => {
   return data;
 };
 
+const enrichData = (data, files) => {
+  const offer = Object.assign({}, data);
+  const date = (new Date()).getTime();
+  const name = offer.name ? offer.name : utils.getRandomFromArray(NameData);
+
+  offer.features = typeof offer.features === `string` ? [offer.features] : offer.features;
+  offer.photos = files && files.preview ?
+    files.preview.map((p, i) => `/api/offers/${date}/preview/${i}`) :
+    offer.photos || [];
+
+  delete offer.name;
+  delete offer.avatar;
+
+  const author = {name, avatar: `/api/offers/${date}/avatar`};
+  const location = getLocationFromAddress(offer.address);
+
+  return {author, offer, location, date};
+};
+
 class OffersController {
   constructor(store, imagesStore) {
     this.store = store;
@@ -129,30 +148,15 @@ class OffersController {
 
   postOffer() {
     return async (req, res) => {
-      const offer = prepareData(req);
-      this[check](offer);
+      const data = prepareData(req);
+      this[check](data);
 
-      const {files} = req;
-      const date = (new Date()).getTime();
-      const name = offer.name ? offer.name : utils.getRandomFromArray(NameData);
+      const offer = enrichData(data, req.files);
 
-      offer.features = typeof offer.features === `string` ? [offer.features] : offer.features;
-      offer.photos = files && files.preview ?
-        files.preview.map((p, i) => `/api/offers/${date}/preview/${i}`) :
-        offer.photos || [];
+      const result = await this.store.saveData(enrichData(data, req.files));
+      await Promise.all(this[saveImages](req.files, result.insertedId));
 
-      delete offer.name;
-      delete offer.avatar;
-
-      const author = {name, avatar: `/api/offers/${date}/avatar`};
-      const location = getLocationFromAddress(offer.address);
-
-      const place = {author, offer, location, date};
-
-      const result = await this.store.saveData(place);
-      await Promise.all(this[saveImages](files, result.insertedId));
-
-      res.send(place);
+      res.send(offer);
     };
   }
 
