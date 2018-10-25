@@ -13,11 +13,16 @@ const schema = {
     },
     "avatar": {
       "type": `string`,
-      "pattern": `.(jpg|gif|png)`
+      "pattern": `.(jpeg|jpg|gif|png)`
     },
-    "preview": {
-      "type": `string`,
-      "pattern": `.(jpg|gif|png)`
+    "photos": {
+      "type": `array`,
+      "items": {
+        "type": `string`,
+        "pattern": `.(jpeg|jpg|gif|png)`
+      },
+      "uniqueItems": true,
+      "minItems": 0
     },
     "address": {
       "type": `string`,
