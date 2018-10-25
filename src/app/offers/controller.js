@@ -35,13 +35,10 @@ const getLocationFromAddress = (address) => {
 
 const prepareData = ({body, files}) => {
   const data = Object.assign({}, body);
-  const avatar = files && files.avatar ? files.avatar[0].originalname : data.avatar;
-  const preview = files && files.preview ?
+  data.avatar = files && files.avatar ? files.avatar[0].originalname : data.avatar;
+  data.photos = files && files.preview ?
     files.preview.map((p) => p.originalname) :
     body.preview;
-
-  data.avatar = avatar;
-  data.photos = preview;
 
   delete data.preview;
 
@@ -139,9 +136,10 @@ class OffersController {
       const date = (new Date()).getTime();
       const name = offer.name ? offer.name : utils.getRandomFromArray(NameData);
 
+      offer.features = typeof offer.features === `string` ? [offer.features] : offer.features;
       offer.photos = files && files.preview ?
         files.preview.map((p, i) => `/api/offers/${date}/preview/${i}`) :
-        offer.photos;
+        offer.photos || [];
 
       delete offer.name;
       delete offer.avatar;
