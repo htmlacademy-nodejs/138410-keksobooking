@@ -77,7 +77,7 @@ describe(`POST /api/offers`, () => {
   const validOffer = {
     "name": `Моника`,
     "avatar": `keks.png`,
-    "preview": `keks.png`,
+    "preview": [`keks.png`],
     "title": `Большая уютная квартира`,
     "address": `570, 472`,
     "description": `Средняя чистая квратира в центре Нью-Йорка. Рядом есть классная кофейня „Central Perk“.`,
@@ -92,9 +92,7 @@ describe(`POST /api/offers`, () => {
 
   const resultOffer = {
     author: {
-      "name": `Моника`,
-      "avatar": `keks.png`,
-      "preview": `keks.png`,
+      "name": `Моника`
     },
     offer: {
       "title": `Большая уютная квартира`,
@@ -150,6 +148,9 @@ describe(`POST /api/offers`, () => {
     const reqOffer = response.body;
     assert.strictEqual(typeof reqOffer.date, `number`);
 
+    resultOffer.author.avatar = `/api/offers/${reqOffer.date}/avatar`;
+    resultOffer.offer.photos = validOffer.preview;
+
     delete reqOffer.date;
     assert.deepStrictEqual(reqOffer, resultOffer);
   });
@@ -198,6 +199,9 @@ describe(`POST /api/offers`, () => {
 
     const reqOffer = response.body;
     assert.strictEqual(typeof reqOffer.date, `number`);
+
+    resultOffer.author.avatar = `/api/offers/${reqOffer.date}/avatar`;
+    resultOffer.offer.photos = [`/api/offers/${reqOffer.date}/preview/0`];
 
     delete reqOffer.date;
     assert.deepStrictEqual(reqOffer, resultOffer);

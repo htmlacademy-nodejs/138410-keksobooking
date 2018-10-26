@@ -18,11 +18,12 @@ const getRouter = (store, imgStore) => {
   const offersController = new OffersController(offersStore, imagesStore);
 
   const upload = multer({storage: multer.memoryStorage()});
-  const allowedImages = [{name: `avatar`, maxCount: 1}, {name: `preview`, maxCount: 1}];
+  const allowedImages = [{name: `avatar`, maxCount: 1}, {name: `preview`, maxCount: 10}];
 
   router.get(``, asyncMiddleware(offersController.getOffers()));
   router.get(`/:date`, asyncMiddleware(offersController.getOfferByDate()));
   router.get(`/:date/avatar`, asyncMiddleware(offersController.getAvatar()));
+  router.get(`/:date/preview/:number`, asyncMiddleware(offersController.getPreview()));
   router.post(``, jsonParser, upload.fields(allowedImages), asyncMiddleware(offersController.postOffer()));
 
   return router;

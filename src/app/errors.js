@@ -8,7 +8,7 @@ const NOT_FOUND_HANDLER = (req, res) => {
 
 const ERROR_HANDLER = (err, req, res, _next) => {
   if (err) {
-    logger.error(err);
+    logger.error(err.message);
     res.status(err.code || 500).send(err.message);
   }
 };

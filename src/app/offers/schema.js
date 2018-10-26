@@ -13,11 +13,21 @@ const schema = {
     },
     "avatar": {
       "type": `string`,
-      "pattern": `.(jpg|gif|png)`
+      "pattern": `.(jpeg|jpg|gif|png)`
     },
-    "preview": {
-      "type": `string`,
-      "pattern": `.(jpg|gif|png)`
+    "photos": {
+      oneOf: [{
+        "type": `array`,
+        "items": {
+          "type": `string`,
+          "pattern": `.(jpeg|jpg|gif|png)`
+        },
+        "uniqueItems": true,
+        "minItems": 0
+      }, {
+        "type": `string`,
+        "pattern": `.(jpeg|jpg|gif|png)`
+      }]
     },
     "address": {
       "type": `string`,
@@ -52,13 +62,18 @@ const schema = {
       "enum": PlaceData.CHECK_TIMES
     },
     "features": {
-      "type": `array`,
-      "items": {
+      oneOf: [{
+        "type": `array`,
+        "items": {
+          "type": `string`,
+          "enum": PlaceData.OFFER_FEATURES
+        },
+        "uniqueItems": true,
+        "minItems": 1
+      }, {
         "type": `string`,
         "enum": PlaceData.OFFER_FEATURES
-      },
-      "uniqueItems": true,
-      "minItems": 1
+      }]
     }
   },
   "required": [`title`, `address`, `description`, `price`, `type`, `rooms`, `guests`, `checkin`, `checkout`, `features`]
