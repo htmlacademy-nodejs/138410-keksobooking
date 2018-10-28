@@ -9,9 +9,10 @@ const descriptionCommand = require(`./commands/description`);
 const licenseCommand = require(`./commands/license`);
 const serverCommand = require(`./commands/server`);
 const defaultCommand = require(`./commands/default`);
+const fillCommand = require(`./commands/fill`);
 const errorCommand = require(`./commands/error`);
 
-const commands = [helpCommand, versionCommand, authorCommand, descriptionCommand, licenseCommand, serverCommand];
+const commands = [helpCommand, versionCommand, authorCommand, descriptionCommand, licenseCommand, serverCommand, fillCommand];
 
 const showError = Symbol(`error`);
 const showDefault = Symbol(`default`);
