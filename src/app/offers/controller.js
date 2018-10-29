@@ -97,7 +97,7 @@ class OffersController {
     return async (req, res) => {
       const result = await this.imagesStore.get(id);
       if (!result) {
-        throw new NotFoundError(`An offer image not found`);
+        throw new NotFoundError(`Request: ${req.url}. An offer image not found.`);
       }
 
       res.header(`Content-Type`, `image/jpg`);
@@ -113,12 +113,12 @@ class OffersController {
     };
   }
 
-  [check](data) {
+  [check](url, data) {
     const valid = validate(data);
 
     if (!valid) {
       const message = validate.errors.map((err) => `${err.schemaPath}: ${err.message}`).join(`. `);
-      throw new BadRequestError(message);
+      throw new BadRequestError(`Request: ${url}. ${message}`);
     }
   }
 
@@ -139,7 +139,7 @@ class OffersController {
       const offer = await this.store.getOffer(date);
 
       if (!offer) {
-        throw new NotFoundError(`An offer with date: ${date} not found`);
+        throw new NotFoundError(`Request: ${req.url}. An offer with date: ${date} not found`);
       }
 
       res.send(offer);
@@ -149,7 +149,7 @@ class OffersController {
   postOffer() {
     return async (req, res) => {
       const data = prepareData(req);
-      this[check](data);
+      this[check](req.url, data);
 
       const offer = enrichData(data, req.files);
 
@@ -166,7 +166,7 @@ class OffersController {
       const offer = await this.store.getOffer(date);
 
       if (!offer) {
-        throw new NotFoundError(`An offer with date: ${date} not found`);
+        throw new NotFoundError(`Request: ${req.url}. An offer with date: ${date} not found`);
       }
 
       const getImage = this[getterImage](offer._id);
@@ -180,7 +180,7 @@ class OffersController {
       const offer = await this.store.getOffer(date);
 
       if (!offer) {
-        throw new NotFoundError(`An offer with date: ${date} not found`);
+        throw new NotFoundError(`Request: ${req.url}. An offer with date: ${date} not found`);
       }
 
       const getImage = this[getterImage](`${offer._id}_${req.params.number}`);

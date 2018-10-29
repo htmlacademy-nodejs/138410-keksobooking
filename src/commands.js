@@ -37,6 +37,8 @@ class Commands {
 
   async [showDefault]() {
     await defaultCommand.execute();
+    await helpCommand.execute(commands);
+    process.exit(utils.ConsoleStatus.OK);
   }
 
   async [showMessage]() {

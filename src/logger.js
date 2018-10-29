@@ -1,7 +1,11 @@
 'use strict';
 
 const {createLogger, format, transports} = require(`winston`);
-const {combine, timestamp} = format;
+const {combine, timestamp, printf} = format;
+
+const myFormat = printf((info) => {
+  return `${info.timestamp}: ${info.message}`;
+});
 
 const logger = createLogger({
   level: `info`,
@@ -15,7 +19,7 @@ const logger = createLogger({
 if (process.env.NODE_ENV !== `production`) {
   logger.add(new transports.Console({
     level: `silly`,
-    format: combine(timestamp(), format.simple())
+    format: combine(timestamp(), format.simple(), myFormat)
   }));
 }
 

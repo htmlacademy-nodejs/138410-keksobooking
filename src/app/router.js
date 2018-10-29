@@ -1,11 +1,12 @@
 'use strict';
 
+const express = require(`express`);
+
 const getOffersRouter = require(`./offers/router`);
 
-const add = (app) => {
-  app.use(`/api/offers`, getOffersRouter());
-};
+// eslint-disable-next-line new-cap
+const router = express.Router();
 
-module.exports = {
-  add
-};
+router.use(`/api/offers`, getOffersRouter());
+
+module.exports = router;

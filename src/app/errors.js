@@ -8,16 +8,13 @@ const NOT_FOUND_HANDLER = (req, res) => {
 
 const ERROR_HANDLER = (err, req, res, _next) => {
   if (err) {
-    logger.error(err.message);
-    res.status(err.code || 500).send(err.message);
+    const status = err.code || 500;
+    logger.error(`status: ${status}, message: ${err.message}`);
+    res.status(status).send(err.message);
   }
 };
 
-const add = (app) => {
-  app.use(NOT_FOUND_HANDLER);
-  app.use(ERROR_HANDLER);
-};
-
 module.exports = {
-  add
+  NOT_FOUND_HANDLER,
+  ERROR_HANDLER
 };

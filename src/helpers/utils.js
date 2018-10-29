@@ -13,9 +13,7 @@ const utils = {
   },
 
   exchangeArrayElements(array, i, j) {
-    let tmp = array[i];
-    array[i] = array[j];
-    array[j] = tmp;
+    [array[i], array[j]] = [array[j], array[i]];
   },
 
   shuffleArray(array) {
