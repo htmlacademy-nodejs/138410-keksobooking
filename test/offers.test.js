@@ -5,7 +5,7 @@ const request = require(`supertest`);
 const assert = require(`assert`);
 
 const initOffersRouter = require(`../src/app/offers/router`);
-const errors = require(`../src/app/errors`);
+const {NOT_FOUND_HANDLER, ERROR_HANDLER} = require(`../src/app/errors`);
 const {NameData} = require(`../src/helpers/data`);
 const OffersStoreMock = require(`./mock/offers`);
 const ImagesStoreMock = require(`./mock/images`);
@@ -16,7 +16,8 @@ const imagesMock = new ImagesStoreMock();
 const router = initOffersRouter(offersMock, imagesMock);
 
 app.use(`/api/offers`, router);
-errors.add(app);
+app.use(NOT_FOUND_HANDLER);
+app.use(ERROR_HANDLER);
 
 describe(`GET /api/offers`, () => {
   it(`get all offers without query`, async () => {
@@ -68,7 +69,7 @@ describe(`GET /api/offers/:date`, () => {
       get(`/api/offers/123456789`)
       .set(`Accept`, `application/json`)
       .expect(404)
-      .expect(`An offer with date: 123456789 not found`)
+      .expect(`Request: /123456789. An offer with date: 123456789 not found`)
       .expect(`Content-Type`, /html/);
   });
 });
