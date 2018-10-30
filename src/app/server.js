@@ -4,11 +4,13 @@ const express = require(`express`);
 
 const logger = require(`../logger`);
 const router = require(`./router`);
-const errors = require(`./errors`);
+const {NOT_FOUND_HANDLER, ERROR_HANDLER} = require(`./errors`);
 
 const setup = Symbol(`setup`);
 
 const {SERVER_PORT, SERVER_HOST} = process.env;
+const PORT = SERVER_PORT || 3000;
+const HOSTNAME = SERVER_HOST || `localhost`;
 
 const allowCORS = (req, res, next) => {
   res.header(`Access-Control-Allow-Origin`, `*`);
@@ -17,8 +19,8 @@ const allowCORS = (req, res, next) => {
 };
 
 class Server {
-  constructor(port = SERVER_PORT) {
-    this.hostname = SERVER_HOST;
+  constructor(port = PORT) {
+    this.hostname = HOSTNAME;
     this.port = port;
     this.app = express();
     this[setup]();
@@ -27,8 +29,9 @@ class Server {
   [setup]() {
     this.app.use(express.static(`static`));
     this.app.use(allowCORS);
-    router.add(this.app);
-    errors.add(this.app);
+    this.app.use(`/`, router);
+    this.app.use(NOT_FOUND_HANDLER);
+    this.app.use(ERROR_HANDLER);
   }
 
   start() {
